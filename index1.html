@@ -12,13 +12,16 @@
             font-size: 20px;
         }
 
-        td{
+        .table-container{
             height: 250px;
+            overflow-y: scroll;
+            text-overflow: scroll;
         }
 
-        .do,.schedule,.delegate,.delete{
-            overflow-y: hidden;
+        .table-container::-webkit-scrollbar{
+        display: none;
         }
+
 
         .do{
             background-color: greenyellow;
@@ -146,32 +149,40 @@
               <tr>
                 <th scope="row">Important</th>
                 <td class="do" id="doDiv">Do<br>
-                    <div id="do">
-                        <input class="mt-2" type="text">
+                    <div class="table-container">
+                        <div id="do">
+                            <input class="mt-2" type="text">
+                        </div>
+                        <button id="addnew" class="mt-2 btn-primary" onclick="addNew('do');updateTime()">Add New</button>
                     </div>
-                    <button id="addnew" class="mt-2 btn-primary" onclick="addNew('do');updateTime()">Add New</button>
-
                 </td>
                 <td class="schedule">Schedule<br>
-                    <div id="schedule">
-                        <input class="mt-2" type="text">
+                    <div class="table-container">
+                        <div id="schedule">
+                            <input class="mt-2" type="text">
+                        </div>
+                        <button id="addnew1" class="mt-2 btn-primary" onclick="addNew('schedule');updateTime()">Add New</button>
                     </div>
-                    <button id="addnew1" class="mt-2 btn-primary" onclick="addNew('schedule');updateTime()">Add New</button>
+                    
                 </td>
               </tr>
               <tr>
                 <th scope="row">Not Important</th>
                 <td class="delegate">Delegate<br>
-                    <div id="delegate">
-                        <input class="mt-2" type="text">
+                    <div class="table-container">
+                        <div id="delegate">
+                            <input class="mt-2" type="text">
+                        </div>
+                        <button id="addnew2" class="mt-2 btn-primary" onclick="addNew('delegate');updateTime()">Add New</button>
                     </div>
-                    <button id="addnew2" class="mt-2 btn-primary" onclick="addNew('delegate');updateTime()">Add New</button>
                 </td>
                 <td class="delete">Delete<br>
-                    <div id="delete3">
-                        <input class="mt-2" type="text">
+                    <div class="table-container">
+                        <div id="delete">
+                            <input class="mt-2" type="text">
+                        </div>
+                        <button id="addnew4" class="mt-2 btn-primary" onclick="addNew('delete');updateTime()">Add New</button>
                     </div>
-                    <button id="addnew4" class="mt-2 btn-primary" onclick="addNew('delete');updateTime()">Add New</button>
                 </td>
               </tr>
             </tbody>
