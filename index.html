@@ -30,7 +30,7 @@
     </style>
 </head>
 <body>
-    <center><h1 class="pt-5 mb-0">TimePad</h1></center>
+    <center><h1 class="mt-3 mb-0">TimePad</h1></center>
     <h2 class="mb-0 pt-3 text-center">We are the <strong style="color: rgb(108, 219, 229);">Timekeepers</strong> from the <strong style="color: green;">Time Management Authority</strong> and we provide you the TimePad to ensure that you manage your time well!</h2>
 
     <!-- SignUp div -->
@@ -72,18 +72,18 @@
             <div class="col-md-5 mx-auto">  
                 <div style="border: 1px dashed white; padding: 20px;">  
                     <h2>Login!</h2>
-                    <div>  
+                    <div class="mt-3">  
                         <label class="align-items-center"> Enter your Email </label>  
                         <input type="text" class="form-control text-lowercase" required id="l-email">  
                     </div>
-                    <div>
+                    <div class="mt-3">
                         <label class="align-items-center"> Enter your Password </label>
                         <input type="password" class="form-control" required id="l-password">
                     </div>
                     <div class="pt-1">
-                        <button class="btn btn-primary btn-block" id="login"> Log In </button>
+                        <button class="mt-3 btn btn-primary btn-block" id="login"> Log In </button>
                     </div>
-                    <p class=" pt-3 text-center">
+                    <p class="pt-3 text-center">
                     <span class="text-muted"> Not a member? </span>  
                     <a style="cursor: pointer;" onclick="toggleSignupLogin()"> Sign up </a></p>
                 </div>
@@ -105,6 +105,118 @@
                 b.style.display = "block";
             }
         }
+    </script>
+
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.1/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.9.1/firebase-analytics.js";
+        import { getAuth, GoogleAuthProvider, signInWithPopup, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.9.1/firebase-auth.js";
+
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+    
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        const firebaseConfig = {
+        apiKey: "AIzaSyArwPvDE5U1b8hPcQYdTrcOB3hfyIC9a5U",
+        authDomain: "mlh-birthday-bash-4f1c1.firebaseapp.com",
+        projectId: "mlh-birthday-bash-4f1c1",
+        storageBucket: "mlh-birthday-bash-4f1c1.appspot.com",
+        messagingSenderId: "1038250126919",
+        appId: "1:1038250126919:web:16c7918dd1967a44a70b62",
+        measurementId: "G-LT9FXMCWD4"
+        };
+    
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const auth = getAuth();
+        console.log("Firebase initialised");
+        const provider = new GoogleAuthProvider();
+
+        // Signup with email password
+        signUp.addEventListener('click', (e) => {
+            var email = document.getElementById("s-email").value;
+            // console.log(email);
+            var password = document.getElementById("s-password").value;
+            // console.log(password);
+
+            createUserWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    // Signed in 
+                    const user = userCredential.user;
+                    // console.log("Created account Successfully!");
+                    window.location.replace("index1.html");
+                })
+                .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    alert(errorMessage);
+                    // ..
+                });
+        });
+
+        // Login with email password
+        login.addEventListener('click', (e) => {
+            var email = document.getElementById("l-email").value;
+            // console.log(email);
+            var password = document.getElementById("l-password").value;
+            // console.log(password);
+
+            signInWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    // Signed in 
+                    const user = userCredential.user;
+                    // ...
+                    console.log("User logged in Successfully!");
+                    window.location.replace("index1.html");
+                })
+                .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    alert(errorMessage);
+                });
+        });
+
+
+        // Signup/Signin with Google
+        signInWithGoogle.addEventListener('click', (e) => {
+            signInWithPopup(auth, provider)
+                .then((result) => {
+                    // This gives you a Google Access Token. You can use it to access the Google API.
+                    const credential = GoogleAuthProvider.credentialFromResult(result);
+                    const token = credential.accessToken;
+
+                    const user = result.user;
+                    console.log(user);
+                }).catch((error) => {
+                    // Handle Errors here.
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    // The email of the user's account used.
+                    const email = error.customData.email;
+                    // The AuthCredential type that was used.
+                    const credential = GoogleAuthProvider.credentialFromError(error);
+                    // alert(errorMessage);
+                    console.log("ERROR signing in.");
+                });
+
+        });
+
+        const user = auth.currentUser;
+        console.log(user);
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // User is signed in, see docs for a list of available properties
+                // https://firebase.google.com/docs/reference/js/firebase.User
+                const uid = user.uid;
+                // ...
+            } else {
+                // User is signed out
+                // ...
+            }
+        });
     </script>
 </body>
 </html>

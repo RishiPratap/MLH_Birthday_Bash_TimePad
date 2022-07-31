@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <title>TimePad</title>
+</head>
+<body>
+    <h1>Home</h1>
+    <button id="logoutButton">Logout</button>
+
+    <!-- Firebase config -->
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.1/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.9.1/firebase-analytics.js";
+        import { getAuth, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.9.1/firebase-auth.js";
+
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+    
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        const firebaseConfig = {
+        apiKey: "AIzaSyArwPvDE5U1b8hPcQYdTrcOB3hfyIC9a5U",
+        authDomain: "mlh-birthday-bash-4f1c1.firebaseapp.com",
+        projectId: "mlh-birthday-bash-4f1c1",
+        storageBucket: "mlh-birthday-bash-4f1c1.appspot.com",
+        messagingSenderId: "1038250126919",
+        appId: "1:1038250126919:web:16c7918dd1967a44a70b62",
+        measurementId: "G-LT9FXMCWD4"
+        };
+    
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const auth = getAuth();
+        console.log("Firebase initialised");
+
+        const user = auth.currentUser;
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // User is signed in, see docs for a list of available properties
+                // https://firebase.google.com/docs/reference/js/firebase.User
+                const uid = user.uid;
+                // ...
+            } else {
+                // User is signed out
+                // ...
+                window.location.replace("error.html");
+            }
+        });
+
+        // Logout
+        logoutButton.addEventListener('click', (e) => {
+            signOut(auth)
+                .then(() => {
+                    // Sign-out successful.
+                    // alert("User signed out!");
+                    window.location.replace("index.html");
+                })
+                .catch((error) => {
+                    // An error happened.
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    alert(errorMessage);
+                });
+        });
+    </script>
+</body>
+</html>
